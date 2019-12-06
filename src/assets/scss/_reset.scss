@@ -24,7 +24,7 @@ time, mark, audio, video {
   outline: none;
 
   -webkit-tap-highlight-color: transparent; // 去掉点击对象时默认的灰色半透明覆盖层(iOS)或者虚框(Android)
-  -webkit-user-select: none; // 禁止选择文字
+  -webkit-user-select: text; // 允许选择文字
 }
 
 html {
