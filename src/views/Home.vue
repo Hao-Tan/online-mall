@@ -4,13 +4,13 @@
             <nav-bread currentPage="Goods" class="content-wrapper"></nav-bread>
         </section>
 
-        <el-contianer>
+        <el-container>
             <el-main class="content-wrapper container">
                 <el-row class="filter">
                     Sort by: <a>Price <i class="el-icon-top"></i></a>
                 </el-row>
             </el-main>    
-        </el-contianer>
+        </el-container>
         
     </div>
 </template>
