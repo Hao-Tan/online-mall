@@ -1,13 +1,13 @@
 <template>
     <div class="home">
-        <section class="bread-wrapper">
+        <el-contianer class="bread-wrapper">
             <nav-bread currentPage="Goods" class="content-wrapper"></nav-bread>
-        </section>
+        </el-contianer>
 
         <el-container>
             <el-main class="content-wrapper container">
                 <el-row class="filter">
-                    Sort by: <a>Price <i class="el-icon-top"></i></a>
+                    <span class="sortby"> Sort by: </span><a href="javascript:;" class="price">Price <i class="el-icon-top"></i></a>
                 </el-row>
             </el-main>    
         </el-container>
@@ -47,5 +47,19 @@
         margin: 0 0 30px;
         padding: 0 20px;
         height: 55px;
+        font-size: $font-size-base - 2px;
+
+        .price {
+            padding: 0 15px;
+
+            .el-icon-top {
+                font-weight: 700;
+            }
+
+            &:hover {
+                color: #ee7a23;
+                transition: color 0.3s
+            }
+        }
     }
 </style>
