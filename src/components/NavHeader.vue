@@ -1,6 +1,6 @@
 <template>
     <el-container class="header">
-        <el-header class="header-nav">
+        <el-header class="header-nav content-wrapper">
             <a href="/" class="logo">
                 <img class="navbar-brand-logo" src="../assets/img/logo.png">
             </a>
@@ -24,46 +24,31 @@
             top="0"
             center
             title="Sign in">
+            <el-col class="account-info">
+                <el-row class="error-wrapper">
+                    <span v-show="errorTip">用户名或密码错误</span>
+                </el-row>
+                
+                <el-input 
+                    class="account-info-input account-username" 
+                    placeholder="User Name"
+                    prefix-icon="el-icon-user"
+                    size="large"
+                    v-model="username"
+                ></el-input>
+                <el-input 
+                    class="account-info-input account-password" 
+                    placeholder="Password"
+                    type="password"
+                    prefix-icon="el-icon-lock"
+                    v-model="password"
+                    ></el-input>
+            </el-col>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="dialogVisible = false">登 录</el-button>
             </span>
         </el-dialog>
-
-        <!-- <el-dialog class="sign-container">
-            <div class="md-modal modal-msg md-modal-transition">
-                <div class="md-modal-inner">
-                    <div class="md-top">
-                        <div class="md-title">Login in</div>
-                        <button class="md-close">Close</button>
-                    </div>
-                    <div class="md-content">
-                        <div class="confirm-tips">
-                            <div class="error-wrap">
-                                <span class="error error-show">用户名或者密码错误</span>
-                            </div>
-                            <ul>
-                                <li class="regi_form_input">
-                                    <i class="icon IconPeople"></i>
-                                    <input type="text" tabindex="1" name="loginname"
-                                        class="regi_login_input regi_login_input_left" placeholder="User Name"
-                                        data-type="loginname">
-                                </li>
-                                <li class="regi_form_input noMargin">
-                                    <i class="icon IconPwd"></i>
-                                    <input type="password" tabindex="2" name="password"
-                                        class="regi_login_input regi_login_input_left login-input-no input_text"
-                                        placeholder="Password">
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="login-wrap">
-                            <a href="javascript:;" class="btn-login">登 录</a>
-                        </div>
-                    </div>
-                </div>
-            </div>    
-        </el-dialog>    -->
     </el-container>
 </template>
 
@@ -72,7 +57,10 @@
         name: 'NavHeader',
         data() {
             return {
-                dialogVisible: false
+                dialogVisible: false,
+                username: "",
+                password: "",
+                errorTip: true
             }
         }
     }
@@ -83,6 +71,7 @@
 
     .header {
         width: 100%; 
+        height: 70px;
         background-color: #fff;
         @include flex-center();
         flex-direction: column;
@@ -125,15 +114,24 @@
                 }
             }
         }
-
-        a {
-            color: #666;
-            text-decoration: none;
-        }
     }
 
     .el-dialog__wrapper {
         @include flex-center();
 
+        .error-wrapper {
+            color: #eb767d;
+            width: 80%;
+            margin-bottom: 5px;
+        }
+
+        .account-info {
+            @include flex-center(column)
+        }
+
+        .account-info-input {
+            width: 80%;
+            margin-bottom: 15px;
+        }
     }
 </style>
