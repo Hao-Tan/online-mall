@@ -1,26 +1,43 @@
 <template>
     <div class="home">
-        <el-contianer class="bread-wrapper">
+        <el-container class="bread-wrapper">
             <nav-bread currentPage="Goods" class="content-wrapper"></nav-bread>
-        </el-contianer>
+        </el-container>
 
         <el-container>
             <el-main class="content-wrapper container">
-                <el-row class="filter">
-                    <span class="sortby"> Sort by: </span><a href="javascript:;" class="price">Price <i class="el-icon-top"></i></a>
+                <el-row class="sort">
+                    <span class="sortby"> Sort by: </span>
+                    <a href="javascript:;" class="price">Price<i class="el-icon-top"></i></a>
                 </el-row>
+
+                <el-container>
+                    <el-aside class="filter-wrapper" width="190px">
+                        <home-filter></home-filter>
+                    </el-aside>
+
+                    <el-main class="list-wrapper">
+                        <home-list></home-list>
+                    </el-main>   
+                </el-container>
             </el-main>    
         </el-container>
-        
+        <div style="height:100px;width:100%;text-align:center;">
+            1234
+        </div>
     </div>
 </template>
 
 <script>
     import NavBread from 'components/NavBread';
+    import HomeFilter from './filter';
+    import HomeList from './list'
     export default {
         name: 'home',
         components: {
-            NavBread
+            NavBread,
+            HomeFilter,
+            HomeList
         }
     }
 </script>
@@ -39,7 +56,7 @@
         margin-top: 60px;
     }
 
-    .filter {
+    .sort {
         background-color: #fff;
         color: #605f5f;
         @include flex-center();
@@ -61,5 +78,17 @@
                 transition: color 0.3s
             }
         }
+    }
+
+    .filter-wrapper {
+        padding: 0 20px;
+        margin-right: 25px;
+        color: #605f5f;
+        font-size: 14px;
+        min-height: 200px;
+    }
+
+    .list-wrapper {
+       
     }
 </style>

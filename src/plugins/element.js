@@ -10,7 +10,9 @@ import {
     Input,
     Breadcrumb,
     BreadcrumbItem,
-    Main
+    Main,
+    Aside,
+    InfiniteScroll
  } from 'element-ui'
 
 Vue.use(Button)
@@ -24,3 +26,5 @@ Vue.use(Input)
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Main)
+Vue.use(Aside)
+Vue.use(InfiniteScroll)
