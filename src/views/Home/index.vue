@@ -1,8 +1,8 @@
 <template>
     <div class="home">
-        <el-container class="bread-wrapper">
+        <nav class="bread-wrapper">
             <nav-bread currentPage="Goods" class="content-wrapper"></nav-bread>
-        </el-container>
+        </nav>
 
         <el-container>
             <el-main class="content-wrapper container">
@@ -22,9 +22,6 @@
                 </el-container>
             </el-main>    
         </el-container>
-        <div style="height:100px;width:100%;text-align:center;">
-            1234
-        </div>
     </div>
 </template>
 
@@ -89,6 +86,6 @@
     }
 
     .list-wrapper {
-       
+       height: 1200px;
     }
 </style>

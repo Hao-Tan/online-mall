@@ -4,6 +4,7 @@ import {
     Icon,
     Header,
     Container,
+    Footer,
     Row,
     Col,
     Dialog,
@@ -18,6 +19,7 @@ import {
 Vue.use(Button)
 Vue.use(Icon)
 Vue.use(Header)
+Vue.use(Footer)
 Vue.use(Container)
 Vue.use(Row)
 Vue.use(Col)

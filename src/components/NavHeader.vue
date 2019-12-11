@@ -1,5 +1,5 @@
 <template>
-    <el-container class="header">
+    <el-header class="header">
         <el-header class="header-nav content-wrapper">
             <a href="/" class="logo">
                 <img class="navbar-brand-logo" src="../assets/img/logo.png">
@@ -49,7 +49,7 @@
                 <el-button type="primary" @click="dialogVisible = false">登 录</el-button>
             </span>
         </el-dialog>
-    </el-container>
+    </el-header>
 </template>
 
 <script>

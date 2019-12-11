@@ -36,7 +36,7 @@ html {
 }
 input, select, textarea {
   border: none;
-  -webkit-appearance: none; // 清除内阴影
+  // -webkit-appearance: none; // 清除内阴影
   -webkit-user-select: auto !important; // 否则ios下输入框无法输入
 }
 textarea {
