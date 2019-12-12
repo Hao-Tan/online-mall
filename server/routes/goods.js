@@ -4,10 +4,10 @@ const Goods = require('../models/goods');
 
 // GET req for goodslist
 router.get("/list", (req, res) => {
-    let page = parseInt(req.param("page"));
-    let pageSize = parseInt(req.param("pageSize"));
-    let priceLevel = req.param("priceLevel");
-    let sort = req.param("sort");
+    let page = parseInt(req.query.page);
+    let pageSize = parseInt(req.query.pageSize);
+    let priceLevel = req.query.priceLevel;
+    let sort = req.query.sort;
     let skip = (page - 1) * pageSize;
     let priceGt = '',
         priceLte = '';
@@ -32,7 +32,7 @@ router.get("/list", (req, res) => {
                 break;
         }
 
-        params = {
+        queryParams = {
             salePrice: {
                 $gt: priceGt,
                 $lte: priceLte
@@ -40,23 +40,22 @@ router.get("/list", (req, res) => {
         };
     }
 
-    let goodsModel = Goods.find(params).skip(skip).limit(pageSize);
-    goodsModel.sort({
-        'salePrice': sort
-    });
-    goodsModel.exec(function (err, doc) {
+    let goodsModel = Goods.find(queryParams).skip(skip).limit(pageSize).sort({'salePrice': sort});
+
+    goodsModel.exec(function (err, data) {
         if (err) {
             res.json({
                 status: '1',
-                msg: err.message
+                msg: err.message,
+                result: ''
             });
         } else {
             res.json({
                 status: '0',
                 msg: '',
                 result: {
-                    count: doc.length,
-                    list: doc
+                    count: data.length,
+                    list: data
                 }
             });
         }
