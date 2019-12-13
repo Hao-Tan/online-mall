@@ -3,7 +3,9 @@ const router = express.Router();
 const Users = require('../models/user');
 
 /* GET users listing. */
-router.post("/signIn", (req, res) => {
+
+// 用户登录
+router.post("/login", (req, res) => {
     let queryParam = {
         userName: req.body.userName,
         userPwd: req.body.userPwd
@@ -25,7 +27,7 @@ router.post("/signIn", (req, res) => {
                 });
 
                 res.send({
-                    status: "10",
+                    status: "0",
                     msg: "",
                     result: {
                         userName: data.userName
@@ -33,7 +35,7 @@ router.post("/signIn", (req, res) => {
                 })
             } else {
                 res.json({
-                    status: "1",
+                    status: "101",
                     msg: "账户密码错误",
                     result: ""
                 });
@@ -41,5 +43,22 @@ router.post("/signIn", (req, res) => {
         }
     })
 })
+
+// 用户登出
+router.psot("/logout", (req, res) => {
+    res.cookie("userId", "", {
+        maxAge: -1
+    });
+    res.cookie("userName", "", {
+        maxAge: -1
+    });
+
+    res.json({
+        status: "0",
+        msg: "",
+        result: ""
+    })
+})
+
 
 module.exports = router;
