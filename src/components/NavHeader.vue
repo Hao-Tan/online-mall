@@ -6,9 +6,9 @@
             </a>
 
             <div class="account">
-                <span class="account-link">nickname</span>
-                <a href="javascript:;" class="account-link" @click="dialogVisible = true">Sign in</a>
-                <a href="javascript:;" class="account-link">Sign out</a>
+                <span class="account-link account-nickname" v-if="!!nickname">{{nickname}}</span>
+                <a href="javascript:;" class="account-link" @click="dialogVisible = true" v-else>Sign in</a>
+                <a href="javascript:;" class="account-link" @click="logout">Sign out</a>
                 <div class="cart-container">
                     <span class="cart-count">1</span>
                     <a class="cart-link" href="/#/cart">
@@ -23,7 +23,8 @@
             width="30%"
             top="0"
             center
-            title="Sign in">
+            title="Sign in"
+            @closed="dialogClose">
             <el-col class="account-info">
                 <el-row class="error-wrapper">
                     <span v-show="errorTip">用户名或密码错误</span>
@@ -43,26 +44,69 @@
                     prefix-icon="el-icon-lock"
                     v-model="password"
                     ></el-input>
-            </el-col>
+            </el-col>   
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">登 录</el-button>
+                <el-button @click="hideDialog">取 消</el-button>
+                <el-button type="primary" @click="login" :disabled="loginClickable">登 录</el-button>
             </span>
         </el-dialog>
     </el-header>
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: 'NavHeader',
         data() {
             return {
                 dialogVisible: false,
-                username: "",
-                password: "",
-                errorTip: true
+                username: "admin",
+                password: "admin",
+                errorTip: false,
+                nickname: ""
             }
-        }
+        },
+        computed: {
+            loginClickable(){
+                return !this.username || !this.password;
+            }
+        },
+        methods: {
+            login() {
+                if (!this.username || !this.password) {
+                    return;
+                }
+                axios.post("users/login", {
+                    userName: this.username,
+                    userPwd: this.password
+                }).then(response => {
+                    let res = response.data;
+                    if (res.status !== "0") {
+                        this.errorTip = true;
+                    } else {
+                        this.nickname = res.result.userName;
+                        this.hideDialog();
+                    }
+                })
+            },
+            hideDialog() {
+                this.password = "";
+                this.username = "";
+                this.errorTip = false;
+                this.dialogVisible = false;
+            },
+            dialogClose() {
+                this.hideDialog();
+            },
+            logout() {
+                axios.post("/users/logout").then(response => {
+                    let res = response.data;
+                    if (res.status === "0") {
+                        this.nickname = "";
+                    }
+                })
+            }
+        },
     }
 </script>
 
@@ -89,6 +133,10 @@
 
                 &-link {
                     padding-left: 15px;
+                }
+
+                &-nickname {
+                    color: #333
                 }
 
                 .cart-container{

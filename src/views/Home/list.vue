@@ -3,17 +3,16 @@
         <el-row 
             :gutter="20"
             tag="ul" 
-            class="list"
-            v-infinite-scroll="load"
-            infinite-scroll-disabled="busy">
-            <el-col tag="li" class="item-wrapper" :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="item in data" :key="item">
+            class="list">
+            <el-col tag="li" class="item-wrapper" :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="(item, index) in goodsList" :key="index">
                 <div class="list-item">
-                    {{item}}
+                    {{item.salePrice}}
                 </div>
             </el-col>
         </el-row>
-        <div class="loading"
-            v-infinite-scroll="load"
+        <div 
+            class="loading"
+            v-infinite-scroll="loadMore"
             infinite-scroll-disabled="busy"
             infinite-scroll-distance="20">
             <i class="el-icon-loading"></i>
@@ -23,6 +22,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: "HomeList",
         components: {
@@ -30,17 +30,38 @@
         },
         data() {
             return {
-                data: 8,
-                busy: false
+                busy: false,
+                goodsList: [],
+                page: 1,
+                pageSize: 8,
             }
         },
+        props: ["priceLevel", "sort"],
+        created() {
+            this.getGoods();
+        },
         methods: {
-            load() {
-                // this.busy = true
-                // setTimeout(() => {
-                //     this.data += 2
-                //     this.busy = false
-                // }, 1000)
+            getGoods() {
+                axios.get("/goods/list", {
+                    params: {
+                        page: this.page,
+                        pageSize: this.pageSize,
+                        sort: this.sort+1,
+                        priceLevel: this.priceLevel
+                    }
+                }).then(response => {
+                    let res = response.data;
+                    if (res.status === "0") {
+                        this.goodsList = this.goodsList.concat(res.result.list)
+                        this.busy = false;
+                    }
+                })
+            },
+            loadMore() {
+                setTimeout(() => {
+                    this.page++;
+                    this.getGoods();
+                }, 500);
             }
         },
 }

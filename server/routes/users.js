@@ -45,7 +45,7 @@ router.post("/login", (req, res) => {
 })
 
 // 用户登出
-router.psot("/logout", (req, res) => {
+router.post("/logout", (req, res) => {
     res.cookie("userId", "", {
         maxAge: -1
     });

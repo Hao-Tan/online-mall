@@ -13,11 +13,11 @@
 
                 <el-container>
                     <el-aside class="filter-wrapper" width="190px">
-                        <home-filter></home-filter>
+                        <home-filter @choosePrice="choosePrice"></home-filter>
                     </el-aside>
 
                     <el-main class="list-wrapper">
-                        <home-list></home-list>
+                        <home-list :priceLevel="priceLevel" :sort="sort"></home-list>
                     </el-main>   
                 </el-container>
             </el-main>    
@@ -35,7 +35,18 @@
             NavBread,
             HomeFilter,
             HomeList
-        }
+        },
+        data() {
+            return {
+                priceLevel: "all",
+                sort: 0,  // -1降序，1升序，默认0不排序
+            }
+        },
+        methods: {
+            choosePrice(index) {
+                this.priceLevel = index;
+            }
+        },
     }
 </script>
 
@@ -83,9 +94,5 @@
         color: #605f5f;
         font-size: 14px;
         min-height: 200px;
-    }
-
-    .list-wrapper {
-       height: 1200px;
     }
 </style>
