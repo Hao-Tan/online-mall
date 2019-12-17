@@ -60,5 +60,24 @@ router.post("/logout", (req, res) => {
     })
 })
 
+// 用户cookie登录
+router.get("/cookiesCheck", (req, res) => {
+    if (req.cookies.userId) {
+        res.json({
+            status: "0",
+            msg: "",
+            result: {
+                userName: req.cookies.userName
+            }
+        })
+    } else {
+        res.json({
+            status: "102",
+            msg: "未登录",
+            result: ""
+        })
+    }
+})
+
 
 module.exports = router;

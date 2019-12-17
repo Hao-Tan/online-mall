@@ -23,12 +23,21 @@
                             class="list">
                             <el-col tag="li" class="item-wrapper" :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="(item, index) in goodsList" :key="index">
                                 <div class="list-item">
-                                    {{item.salePrice}}
+                                    <div class="pic">
+                                        <img v-lazy="require('assets/img/' + item.productImage)">
+                                    </div>
+                                    <div class="main">
+                                        <div class="name">{{item.productName}}</div>
+                                        <div class="price">{{item.salePrice | currency("¥")}}</div>
+                                        <div class="btn-area">
+                                            <a href="javascript:;" class="add-btn" @click="addCart(item.productId)">加入购物车</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </el-col>
                         </el-row>
 
-                        <!-- 滚动条，无限滚动加载数据，指定监听body的滚动条，identifier则用于重载无限滚动 -->
+                        <!-- 滚动条，无限滚动加载数据，指定监听body的滚动条，identifier则用于排序或分组时重载该组件 -->
                         <infinite-loading @infinite="infiniteHandler" forceUseInfiniteWrapper="body" :identifier="identifier"></infinite-loading>
                     </el-main>   
                 </el-container>
@@ -158,10 +167,63 @@
 
     .list {
         &-item {
-            height: 600px;
             background-color: #fff;
+            border: 2px solid #e9e9e9;
             margin-bottom: 20px;
+            transition: all 0.3s ease-out;
+            font-size: 14px;
+
+            &:hover {
+                border-color: #ee7a23;
+                box-shadow: 0 0 10px #999;
+                transform: translateY(-5px);
+                transition: all 0.3s ease-out;
+            }
+
+            .pic {
+                padding-bottom: 100%;
+                width: 100%;
+                height: 0;
+
+                img {
+                    width: 100%;;
+                }
+            }
+
+            .main {
+                padding: 20px 10px 10px;
+
+                .name {
+                    @include ellipsis();
+                    height: 4em;
+                    line-height: 1.25em;
+                    font-weight: 700;
+                }
+
+                .price {
+                    font-size: 1.25em;
+                    color: #d1434a;
+                    line-height: 2em;
+                    letter-spacing: 0.05em;
+                    padding-bottom: 5px;
+                }
+
+                .add-btn {
+                    letter-spacing: 0.25em;
+                    color: #d1434a;
+                    border: 1px solid #d1434a;
+                    font-weight: 700;
+                    width: 100%;
+                    display: inline-block;
+                    line-height: 3em;
+                    height: 3em;
+                    text-align: center;
+
+                    &:hover {
+                        background-color: #ffe5e6;
+                    }
+                }
+            }
         }
     }
-
 </style>

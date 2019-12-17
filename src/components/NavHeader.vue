@@ -71,6 +71,15 @@
                 return !this.username || !this.password;
             }
         },
+        created() {
+            axios.get("/users/cookiesCheck").then(({data}) => {
+                if (data.status === "0") {
+                    this.nickname = data.result.userName;
+                } else {
+                    return;
+                }
+            })
+        },
         methods: {
             login() {
                 if (!this.username || !this.password) {
@@ -106,7 +115,7 @@
                     }
                 })
             }
-        },
+        }
     }
 </script>
 
