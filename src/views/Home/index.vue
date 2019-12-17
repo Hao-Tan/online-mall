@@ -8,7 +8,7 @@
             <el-main class="content-wrapper container">
                 <el-row class="sort">
                     <span class="sortby"> Sort by: </span>
-                    <a href="javascript:;" class="price">Price<i class="el-icon-top"></i></a>
+                    <a href="javascript:;" class="price" @click="sortGoods">Price<i class="el-icon-top" :class="{descend: sort === -1}"></i></a>
                 </el-row>
 
                 <el-container>
@@ -17,7 +17,19 @@
                     </el-aside>
 
                     <el-main class="list-wrapper">
-                        <home-list :priceLevel="priceLevel" :sort="sort"></home-list>
+                        <el-row 
+                            :gutter="20"
+                            tag="ul" 
+                            class="list">
+                            <el-col tag="li" class="item-wrapper" :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="(item, index) in goodsList" :key="index">
+                                <div class="list-item">
+                                    {{item.salePrice}}
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                        <!-- 滚动条，无限滚动加载数据，指定监听body的滚动条，identifier则用于重载无限滚动 -->
+                        <infinite-loading @infinite="infiniteHandler" forceUseInfiniteWrapper="body" :identifier="identifier"></infinite-loading>
                     </el-main>   
                 </el-container>
             </el-main>    
@@ -26,27 +38,69 @@
 </template>
 
 <script>
+    import InfiniteLoading from 'vue-infinite-loading';
     import NavBread from 'components/NavBread';
     import HomeFilter from './filter';
-    import HomeList from './list'
+    import axios from 'axios';
     export default {
         name: 'home',
         components: {
             NavBread,
             HomeFilter,
-            HomeList
+            InfiniteLoading
         },
         data() {
             return {
                 priceLevel: "all",
-                sort: 0,  // -1降序，1升序，默认0不排序
+                sort: 1,  // -1降序，1升序
+                goodsList: [],
+                page: 1,
+                pageSize: 8,
+                identifier: ''
+            }
+        },
+        watch: {
+            sort() {
+                this.page = 1;
+                this.goodsList = [];
+                this.identifier = new Date();
             }
         },
         methods: {
+            // 按价格区间输出
             choosePrice(index) {
                 this.priceLevel = index;
-            }
-        },
+                this.page = 1;
+                this.goodsList = [];
+                this.identifier = new Date();
+            },
+            // 排序
+            sortGoods() {
+                this.sort = 0 - this.sort;
+            },
+
+            // 无限滚动的监听处理，重载会自动执行一次
+            infiniteHandler($state) {
+                axios.get("/goods/list", {
+                    params: {
+                        page: this.page,
+                        pageSize: this.pageSize,
+                        sort: this.sort,
+                        priceLevel: this.priceLevel
+                    }
+                }).then(({ data }) => {
+                    if (data.result.count) {
+                        this.goodsList.push(...data.result.list);
+                        if (data.result.count === 8) {
+                            this.page += 1;
+                            $state.loaded();
+                        } else {
+                            $state.complete();
+                        }    
+                    }
+                });
+            },
+        }
     }
 </script>
 
@@ -77,8 +131,14 @@
         .price {
             padding: 0 15px;
 
+            .descend{
+                transform: rotate(180deg);
+                transition: all 0.3s ease-out;
+            }
+
             .el-icon-top {
                 font-weight: 700;
+                transition: all 0.3s ease-out;
             }
 
             &:hover {
@@ -95,4 +155,13 @@
         font-size: 14px;
         min-height: 200px;
     }
+
+    .list {
+        &-item {
+            height: 600px;
+            background-color: #fff;
+            margin-bottom: 20px;
+        }
+    }
+
 </style>

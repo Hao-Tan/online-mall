@@ -2,12 +2,12 @@
     <dl class="filter-price">
         <dt class="filter-tag">PRICE:</dt>
         <dd class="filter-item" @click="chooseOne('all')">
-            <a href="javascript:;" :class="{cur: 'all'=== cur}">
+            <a href="javascript:;" :class="{cur: 'all'=== priceLevel}">
                 All
             </a>    
         </dd>
         <dd class="filter-item" v-for="(item,index) in filterList" :key="index" @click="chooseOne(index)">
-            <a href="javascript:;" :class="{cur: index == cur}" >
+            <a href="javascript:;" :class="{cur: index == priceLevel}" >
                 {{item.startPrice}} - {{item.endPrice}}
             </a>
         </dd>
@@ -19,7 +19,7 @@
         name: "HomeFilter",
         data() {
             return {
-                cur: "all",
+                priceLevel: "all",
                 filterList: [
                     {
                         startPrice:'0.00',
@@ -42,7 +42,7 @@
         },
         methods: {
             chooseOne(index) {
-                this.cur = index;
+                this.priceLevel = index;
                 this.$emit("choosePrice",index);
             }
         }
@@ -61,6 +61,12 @@
         &-item {
             margin: 20px 0;
             padding: 5px 0;
+
+            & a {
+                width: 100%;
+                display: block;
+                transition: padding-left 0.3s ease-out;
+            }
 
             & a:hover {
                 color: #ee7a23;
