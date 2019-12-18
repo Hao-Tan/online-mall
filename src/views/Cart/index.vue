@@ -1,9 +1,6 @@
 <template>
     <div class="infinite-list-wrapper" style="overflow:auto">
-        <ul
-            class="list"
-            v-infinite-scroll="load"
-            infinite-scroll-disabled="disabled">
+        <ul>
             <li v-for="i in count" class="list-item" :key="i">{{ i }}</li>
         </ul>
         <p v-if="loading">加载中...</p>

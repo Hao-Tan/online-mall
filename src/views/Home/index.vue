@@ -166,6 +166,10 @@
     }
 
     .list {
+        &-wrapper {
+            padding: 15px;
+        }
+
         &-item {
             background-color: #fff;
             border: 2px solid #e9e9e9;

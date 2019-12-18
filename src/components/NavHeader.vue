@@ -1,16 +1,16 @@
 <template>
     <el-header class="header">
         <el-header class="header-nav content-wrapper">
-            <a href="/" class="logo">
+            <router-link :to="{ path: '/' }" class="logo">
                 <img class="navbar-brand-logo" src="../assets/img/logo.png">
-            </a>
+            </router-link>
 
             <div class="account">
                 <span class="account-link account-nickname" v-if="!!nickname">{{nickname}}</span>
                 <a href="javascript:;" class="account-link" @click="dialogVisible = true" v-else>Sign in</a>
                 <a href="javascript:;" class="account-link" @click="logout">Sign out</a>
                 <div class="cart-container">
-                    <span class="cart-count">1</span>
+                    <span class="cart-count" v-show="cartCount >= 1">{{cartCount}}</span>
                     <a class="cart-link" href="/#/cart">
                         <i class="el-icon-shopping-cart-2"></i>
                     </a>
@@ -63,7 +63,8 @@
                 username: "admin",
                 password: "admin",
                 errorTip: false,
-                nickname: ""
+                nickname: "",
+                cartCount: 0
             }
         },
         computed: {
@@ -75,6 +76,7 @@
             axios.get("/users/cookiesCheck").then(({data}) => {
                 if (data.status === "0") {
                     this.nickname = data.result.userName;
+                    this.getCartCount();
                 } else {
                     return;
                 }
@@ -94,6 +96,7 @@
                         this.errorTip = true;
                     } else {
                         this.nickname = res.result.userName;
+                        this.getCartCount();
                         this.hideDialog();
                     }
                 })
@@ -113,6 +116,11 @@
                     if (res.status === "0") {
                         this.nickname = "";
                     }
+                })
+            },
+            getCartCount() {
+                axios.get("/users/getCartCount").then(({data}) => {
+                    this.cartCount = data.result.cartCount
                 })
             }
         }
@@ -165,6 +173,7 @@
                         @include flex-center();
                         background-color: #eb767d;
                         color: #fff;
+                        font-size: 12px;
                         font-weight: 700;
                         border-radius: 50%;
                     }
