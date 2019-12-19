@@ -25,3 +25,7 @@ a {
     min-width: 375px;
     margin: 0 auto;
 }
+
+.el-dialog__wrapper {
+    @include flex-center();
+}

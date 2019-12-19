@@ -8,7 +8,7 @@
             <div class="account">
                 <span class="account-link account-nickname" v-if="!!nickname">{{nickname}}</span>
                 <a href="javascript:;" class="account-link" @click="dialogVisible = true" v-else>Sign in</a>
-                <a href="javascript:;" class="account-link" @click="logout">Sign out</a>
+                <a href="javascript:;" class="account-link" @click="logout" v-if="!!nickname">Sign out</a>
                 <div class="cart-container">
                     <span class="cart-count" v-show="cartCount >= 1">{{cartCount}}</span>
                     <a class="cart-link" href="/#/cart">
@@ -183,8 +183,6 @@
     }
 
     .el-dialog__wrapper {
-        @include flex-center();
-
         .error-wrapper {
             color: #eb767d;
             width: 80%;

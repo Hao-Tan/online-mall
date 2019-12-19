@@ -41,6 +41,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  if (req.cookies.userId) {
+    next();
+  } else if (req.originalUrl === "/users/login" || req.originalUrl.indexOf("/goods/list") > -1) {
+    next();  
+  } else {
+    res.json({
+      status: "102",
+      msg: "未登录",
+      result: ""
+    })
+  }
+})
+
 app.use('/goods', goodsRouter);
 app.use('/users', usersRouter);
 

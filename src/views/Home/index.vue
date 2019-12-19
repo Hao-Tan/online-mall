@@ -43,6 +43,25 @@
                 </el-container>
             </el-main>    
         </el-container>
+
+        <el-dialog
+            :visible.sync="mdCartShow"
+            width="30%"
+            top="0"
+            center
+            class="mdcart">
+            <el-row 
+                type="flex"
+                justify="center"
+                align="middle">
+                <i class="el-icon-circle-check"></i>
+                <span>加入购物车成功!</span>
+            </el-row>
+            <span slot="footer">
+                <el-button @click="mdCartShow = false" class="continue mdcart-btn">继续购物</el-button>
+                <el-button type="primary" @click="checkCart" class="check-cart mdcart-btn">查看购物车</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -65,7 +84,9 @@
                 goodsList: [],
                 page: 1,
                 pageSize: 8,
-                identifier: ''
+                identifier: '',
+                mdCartShow: true,
+                mdShow: false
             }
         },
         watch: {
@@ -227,6 +248,39 @@
                         background-color: #ffe5e6;
                     }
                 }
+            }
+        }
+    }
+
+    /deep/.mdcart {
+        i {
+            margin-right: 20px;
+            font-size: 20px;
+            color: #ee7a23;
+        }
+
+        &-btn, &-btn:hover {
+            border-radius: 0px;
+            border: 1px solid #d1434a;
+            margin-bottom: 20px;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+        }
+
+        .continue{
+            color: #d1434a;
+
+            &:hover {
+                background-color: #ffe5e6;
+            }
+        }
+
+        .check-cart {
+            background-color: #d1434a;
+
+            &:hover {
+                background: #f16f75;
+                border-color: #f16f75;
             }
         }
     }
