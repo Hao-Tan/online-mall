@@ -44,6 +44,7 @@
             </el-main>    
         </el-container>
 
+        // 添加成功时的弹窗
         <el-dialog
             :visible.sync="mdCartShow"
             width="30%"
@@ -58,9 +59,25 @@
                 <span>加入购物车成功!</span>
             </el-row>
             <span slot="footer">
-                <el-button @click="mdCartShow = false" class="continue mdcart-btn">继续购物</el-button>
-                <el-button type="primary" @click="checkCart" class="check-cart mdcart-btn">查看购物车</el-button>
+                <el-button @click.native="mdCartShow = false" class="continue mdcart-btn">继续购物</el-button>
+                <el-button type="primary" @click.native="checkCart" class="check-cart mdcart-btn">查看购物车</el-button>
             </span>
+        </el-dialog>
+
+        // 添加失败时的弹窗
+        <el-dialog
+            :visible.sync="mdShow"
+            width="30%"
+            top="0"
+            center
+            class="mdcart">
+            <el-row 
+                type="flex"
+                justify="center"
+                align="middle">
+                <span>您当前尚未登录！</span>
+            </el-row>
+            <el-button @click.native="mdShow = false" class="continue mdcart-btn" slot="footer" style="width:50%;">关闭</el-button>
         </el-dialog>
     </div>
 </template>
@@ -85,7 +102,7 @@
                 page: 1,
                 pageSize: 8,
                 identifier: '',
-                mdCartShow: true,
+                mdCartShow: false,
                 mdShow: false
             }
         },
@@ -130,6 +147,23 @@
                     }
                 });
             },
+
+            // 添加商品至购物车
+            addCart(productId) {
+                axios.post("/users/addCart", {
+                    productId: productId
+                }).then(({data}) => {
+                    if (data.status === "0") {
+                        this.mdCartShow = true;
+                    } else {
+                        this.mdShow = true;
+                    }
+                })
+            },
+
+            checkCart() {
+                this.$router.push("/cart");
+            }
         }
     }
 </script>
