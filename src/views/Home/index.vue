@@ -44,7 +44,7 @@
             </el-main>    
         </el-container>
 
-        // 添加成功时的弹窗
+        <!-- 添加成功时的弹窗 -->
         <el-dialog
             :visible.sync="mdCartShow"
             width="30%"
@@ -64,7 +64,7 @@
             </span>
         </el-dialog>
 
-        // 添加失败时的弹窗
+        <!-- 添加失败时的弹窗 -->
         <el-dialog
             :visible.sync="mdShow"
             width="30%"
@@ -113,6 +113,13 @@
                 this.identifier = new Date();
             }
         },
+        beforeRouteLeave (to, from, next) {
+            if (!this.$parent.$refs.header.nickname) {
+                next(false);
+            } else {
+                next();
+            }
+        },
         methods: {
             // 按价格区间输出
             choosePrice(index) {
@@ -154,6 +161,7 @@
                     productId: productId
                 }).then(({data}) => {
                     if (data.status === "0") {
+                        this.$store.commit("updateCartCount", 1);
                         this.mdCartShow = true;
                     } else {
                         this.mdShow = true;

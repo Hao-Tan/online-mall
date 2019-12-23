@@ -1,9 +1,9 @@
 <template>
     <el-header class="header">
         <el-header class="header-nav content-wrapper">
-            <router-link :to="{ path: '/' }" class="logo">
+            <a href="/" class="logo">
                 <img class="navbar-brand-logo" src="../assets/img/logo.png">
-            </router-link>
+            </a>
 
             <div class="account">
                 <span class="account-link account-nickname" v-if="!!nickname">{{nickname}}</span>
@@ -11,9 +11,9 @@
                 <a href="javascript:;" class="account-link" @click="logout" v-if="!!nickname">Sign out</a>
                 <div class="cart-container">
                     <span class="cart-count" v-show="cartCount >= 1">{{cartCount}}</span>
-                    <a class="cart-link" href="/#/cart">
+                    <router-link class="cart-link" to="/Cart">
                         <i class="el-icon-shopping-cart-2"></i>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </el-header>
@@ -63,11 +63,13 @@
                 username: "admin",
                 password: "admin",
                 errorTip: false,
-                nickname: "",
-                cartCount: 0
+                nickname: ""
             }
         },
         computed: {
+            cartCount() {
+                return this.$store.state.cartCount;
+            },
             loginClickable(){
                 return !this.username || !this.password;
             }
@@ -115,12 +117,14 @@
                     let res = response.data;
                     if (res.status === "0") {
                         this.nickname = "";
+                        this.$store.commit("initCartCount", 0);
+                        this.$router.replace("/")
                     }
                 })
             },
             getCartCount() {
                 axios.get("/users/getCartCount").then(({data}) => {
-                    this.cartCount = data.result.cartCount
+                    this.$store.commit("initCartCount", data.result.cartCount);
                 })
             }
         }

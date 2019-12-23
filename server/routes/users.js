@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Users = require('../models/user');
+const Users = require('../models/users');
+const Goods = require('../models/goods')
 
 /* GET users listing. */
 
@@ -14,7 +15,7 @@ router.post("/login", (req, res) => {
         if (err) {
             res.send({
                 status: "1",
-                msg: err.msg,
+                msg: err.message,
                 result: ""
             });
         } else {
@@ -105,6 +106,81 @@ router.get("/getCartCount", (req, res) => {
             }
         })
     }
+})
+
+// 添加商品至购物车
+router.post("/addCart", (req, res) => {
+    let productId = req.body.productId,
+        userId = req.cookies.userId;
+    Users.findOne({userId: userId}, (err, data) => {
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            })
+        } else if (data) {
+            let index;
+            data.cartList.forEach(element => {
+                if (element.productId === productId) {
+                    element.productNum++;
+                    index = productId; // index用于标记是否找到历史记录
+                }
+            });
+
+            if (index) {
+                data.save((saveErr, data) => {
+                    if (saveErr) {
+                        res.json({
+                            status: 1,
+                            msg: saveErr.message,
+                            result: ""
+                        })
+                    } else {
+                        res.json({
+                            status: "0",
+                            msg: "",
+                            result: "success"
+                        })
+                    }
+                })
+            } else {
+                Goods.findOne({productId: productId}, (err, goodsData) => {
+                    if (err) {
+                        res.json({
+                            status: "1",
+                            msg: err.message,
+                            result: ""
+                        })
+                    } else {
+                        data.cartList.push({
+                            "productId": goodsData.productId,
+                            "productName": goodsData.productName,
+                            "salePrice": goodsData.salePrice,
+                            "productImage": goodsData.productImage,
+                            "productNum": 1,
+                            "checked": 1
+                        })
+                        data.save((err, data) => {
+                            if (err) {
+                                res.json({
+                                    status: "1",
+                                    msg: err.message,
+                                    result: ""
+                                })
+                            } else {
+                                res.json({
+                                    status: "0",
+                                    msg: "",
+                                    result: "success"
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        }
+    })
 })
 
 

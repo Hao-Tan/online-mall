@@ -15,6 +15,10 @@ const routes = [
         path: '/Cart',
         name: 'cart',
         component: Cart
+    },
+    {
+        path: "*",
+        redirect: "/"
     }
 ]
 
