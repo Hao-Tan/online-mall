@@ -33,6 +33,8 @@ export default {
 <style  lang="scss" scoped>
     @import "~assets/scss/mixins";
     .footer {
+        position: absolute;
+        bottom: 0;
         width: 100%; 
         color: #ada9a5;
         font-size: 14px;

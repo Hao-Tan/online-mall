@@ -1,7 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home'
-import Cart from '../views/Cart'
+const [
+    Home,
+    Cart,
+    Address,
+    OrderConfirm,
+    OrderSuccess
+] = [
+    () => import("views/Home"),
+    () => import("views/Cart"),
+    () => import("views/Address"),
+    () => import("views/OrderConfirm"),
+    () => import("views/OrderSuccess")
+]
 
 Vue.use(VueRouter)
 
@@ -15,6 +26,21 @@ const routes = [
         path: '/Cart',
         name: 'cart',
         component: Cart
+    },
+    {
+        path: '/Address',
+        name: 'address',
+        component: Address
+    },
+    {
+        path: '/OrderConfirm',
+        name: 'orderConfirm',
+        component: OrderConfirm
+    },
+    {
+        path: '/OrderSuccess',
+        name: 'orderSuccess',
+        component: OrderSuccess
     },
     {
         path: "*",

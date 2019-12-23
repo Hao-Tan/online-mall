@@ -18,14 +18,3 @@ body {
 a {
     color: #666666;
 }
-
-.content-wrapper {
-    width: 100%;
-    max-width: 1280px;
-    min-width: 375px;
-    margin: 0 auto;
-}
-
-.el-dialog__wrapper {
-    @include flex-center();
-}

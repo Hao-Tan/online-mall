@@ -1,7 +1,7 @@
 <template>
-    <div class="cart">
+    <div class="order-confirm">
         <div class="bread-wrapper">
-            <nav-bread currentPage="Cart" class="content-wrapper"></nav-bread>
+            <nav-bread currentPage="Order Confirm" class="content-wrapper"></nav-bread>
         </div>
     </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
     import NavBread from 'components/NavBread'
     export default {
-        name: "Cart",
+        name: "OrderConfirm",
         components: {
             NavBread
         }

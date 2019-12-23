@@ -1,0 +1,62 @@
+@import "./mixins";
+#app {
+    position: relative;
+    padding-bottom: 100px;
+    min-height: 100vh;
+}
+
+// 内容区宽度
+.content-wrapper {
+    width: 100%;
+    max-width: 1280px;
+    min-width: 375px;
+    margin: 0 auto;
+}
+
+// 弹窗居中
+.el-dialog__wrapper {
+    @include flex-center();
+}
+
+// 面包区样式
+.bread-wrapper {
+    background-color: #f0f0f0;
+    height: $navbar-height;
+    @include flex-between();
+    justify-content: flex-start;
+}
+
+// 弹窗样式
+/deep/.g-cart {
+    i {
+        margin-right: 20px;
+        font-size: 20px;
+        color: #ee7a23;
+    }
+
+    &-btn,
+    &-btn:hover {
+        border-radius: 0px;
+        border: 1px solid #d1434a;
+        margin-bottom: 20px;
+        letter-spacing: 0.2em;
+        font-weight: 700;
+    }
+
+    .left-btn {
+        color: #d1434a;
+
+        &:hover {
+            background-color: #ffe5e6;
+        }
+    }
+
+    .right-btn {
+        background-color: #d1434a;
+
+        &:hover {
+            background: #f16f75;
+            border-color: #f16f75;
+        }
+    }
+}

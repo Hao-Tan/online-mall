@@ -50,7 +50,7 @@
             width="30%"
             top="0"
             center
-            class="mdcart">
+            class="g-cart">
             <el-row 
                 type="flex"
                 justify="center"
@@ -59,8 +59,8 @@
                 <span>加入购物车成功!</span>
             </el-row>
             <span slot="footer">
-                <el-button @click.native="mdCartShow = false" class="continue mdcart-btn">继续购物</el-button>
-                <el-button type="primary" @click.native="checkCart" class="check-cart mdcart-btn">查看购物车</el-button>
+                <el-button @click.native="mdCartShow = false" class="left-btn md-btn">继续购物</el-button>
+                <el-button type="primary" @click.native="checkCart" class="right-btn md-btn">查看购物车</el-button>
             </span>
         </el-dialog>
 
@@ -70,14 +70,14 @@
             width="30%"
             top="0"
             center
-            class="mdcart">
+            class="g-cart">
             <el-row 
                 type="flex"
                 justify="center"
                 align="middle">
                 <span>您当前尚未登录！</span>
             </el-row>
-            <el-button @click.native="mdShow = false" class="continue mdcart-btn" slot="footer" style="width:50%;">关闭</el-button>
+            <el-button @click.native="mdShow = false" class="left-btn md-btn" slot="footer" style="width:50%;">关闭</el-button>
         </el-dialog>
     </div>
 </template>
@@ -178,12 +178,6 @@
 
 <style lang="scss" scoped>
     @import "~assets/scss/mixins";
-    .bread-wrapper {
-        background-color: #f0f0f0;
-        height: $navbar-height;
-        @include flex-between();
-        justify-content: flex-start;
-    }
 
     .container {
         padding: 0;
@@ -290,39 +284,6 @@
                         background-color: #ffe5e6;
                     }
                 }
-            }
-        }
-    }
-
-    /deep/.mdcart {
-        i {
-            margin-right: 20px;
-            font-size: 20px;
-            color: #ee7a23;
-        }
-
-        &-btn, &-btn:hover {
-            border-radius: 0px;
-            border: 1px solid #d1434a;
-            margin-bottom: 20px;
-            letter-spacing: 0.2em;
-            font-weight: 700;
-        }
-
-        .continue{
-            color: #d1434a;
-
-            &:hover {
-                background-color: #ffe5e6;
-            }
-        }
-
-        .check-cart {
-            background-color: #d1434a;
-
-            &:hover {
-                background: #f16f75;
-                border-color: #f16f75;
             }
         }
     }
