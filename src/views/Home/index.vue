@@ -5,7 +5,7 @@
         </nav>
 
         <el-container>
-            <el-main class="content-wrapper container">
+            <div class="content-wrapper container">
                 <el-row class="sort">
                     <span class="sortby"> Sort by: </span>
                     <a href="javascript:;" class="price" @click="sortGoods">Price<i class="el-icon-top" :class="{descend: sort === -1}"></i></a>
@@ -41,7 +41,7 @@
                         <infinite-loading @infinite="infiniteHandler" forceUseInfiniteWrapper="body" :identifier="identifier"></infinite-loading>
                     </el-main>   
                 </el-container>
-            </el-main>    
+            </div>    
         </el-container>
 
         <!-- 添加成功时的弹窗 -->
