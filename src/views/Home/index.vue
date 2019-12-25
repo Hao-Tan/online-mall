@@ -59,8 +59,8 @@
                 <span>加入购物车成功!</span>
             </el-row>
             <span slot="footer">
-                <el-button @click.native="mdCartShow = false" class="left-btn md-btn">继续购物</el-button>
-                <el-button type="primary" @click.native="checkCart" class="right-btn md-btn">查看购物车</el-button>
+                <el-button @click.native="mdCartShow = false" class="left-btn g-cart-btn">继续购物</el-button>
+                <el-button type="primary" @click.native="checkCart" class="right-btn g-cart-btn">查看购物车</el-button>
             </span>
         </el-dialog>
 
@@ -286,5 +286,11 @@
                 }
             }
         }
+    }
+
+    .el-icon-circle-check {
+        margin-right: 20px;
+        font-size: 20px;
+        color: #ee7a23;
     }
 </style>

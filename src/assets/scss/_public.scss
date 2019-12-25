@@ -27,13 +27,7 @@
 }
 
 // 弹窗样式
-/deep/.g-cart {
-    i {
-        margin-right: 20px;
-        font-size: 20px;
-        color: #ee7a23;
-    }
-
+.g-cart {
     &-btn,
     &-btn:hover {
         border-radius: 0px;

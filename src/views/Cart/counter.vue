@@ -9,21 +9,16 @@
 <script>
     export default {
         name: 'CartCounter',
-        props: {
-            amount: {
-                type: Number,
-                default: 1
-            }
-        },
+        props: ["amount"],
         methods: {
             minus() {
                 if (this.amount <= 1) {
                     return;
                 }
-                this.$emit('update:amount', this.amount - 1);
+                this.$emit('update:amount', parseInt(this.amount) - 1);
             },
             plus() {
-                this.$emit('update:amount', this.amount + 1);
+                this.$emit('update:amount', parseInt(this.amount) + 1);
             }
         }
     };

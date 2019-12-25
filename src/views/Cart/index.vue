@@ -18,91 +18,79 @@
                         <td>EDIT</td>
                     </thead>
 
-                    <tr class="cart-list-item">
+                    <tr 
+                        v-for="item in cartList"
+                        class="cart-list-item"
+                        :key="item.productId">
                         <td class="item-tab-1">
                             <div class="item-wrapper">
-                                <i class="el-icon-success icon-success"></i>        
+                                <i class="el-icon-success icon-success" :class="{checked: item.checked === '1' }" @click="editCart(item, 'select')"></i>        
                                 <div class="pic">
-                                    <img src="https://www.hover.com/packs/src/application/images/common/hv_logo-aeb786424e4c4ba2a199aafaa1960943.svg" class="item-image">
+                                    <img v-lazy="require('assets/img/'+item.productImage)" class="item-image">
                                 </div>
-                                <span class="item-name">123</span>
+                                <span class="item-name">{{item.productName}}</span>
                             </div>
                             
                         </td>
                         <td class="item-tab-2">
-                            <div class="item-wraaper">
-                                123
+                            <div class="item-wrapper">
+                                {{item.salePrice | currency("¥")}}
                             </div>
                         </td>
                         <td class="item-tab-3">
                             <div class="item-wrapper">
-                                <cart-counter :amount.sync="amount"></cart-counter>
+                                <cart-counter :amount.sync="item.productNum" @update:amount="editCart(item)"></cart-counter>
                             </div>
                         </td>
                         <td class="item-tab-4">
                             <div class="item-wrapper">
-                                321
+                                {{item.salePrice * item.productNum | currency("¥")}}
                             </div>
                         </td>
                         <td class="item-tab-5">
                             <div class="item-wrapper">
-                                <i class="el-icon-delete"></i>
+                                <i class="el-icon-delete" @click="showMd(item.productId)"></i>
                             </div>
                         </td>
                     </tr>
-
-                    <tr class="cart-list-item">
-                        <td class="item-tab-1">
-                            <div class="item-wrapper">
-                                <i class="el-icon-success icon-success"></i>        
-                                <div class="pic">
-                                    <img src="https://www.hover.com/packs/src/application/images/common/hv_logo-aeb786424e4c4ba2a199aafaa1960943.svg" class="item-image">
-                                </div>
-                                <span class="item-name">123</span>
-                            </div>
-                            
-                        </td>
-                        <td class="item-tab-2">
-                            <div class="item-wraaper">
-                                123
-                            </div>
-                        </td>
-                        <td class="item-tab-3">
-                            <div class="item-wrapper">
-                                <cart-counter :amount.sync="amount"></cart-counter>
-                            </div>
-                        </td>
-                        <td class="item-tab-4">
-                            <div class="item-wrapper">
-                                321
-                            </div>
-                        </td>
-                        <td class="item-tab-5">
-                            <div class="item-wrapper">
-                                <i class="el-icon-delete"></i>
-                            </div>
-                        </td>
-                    </tr>
-
                 </table>
 
                 <div class="cart-check">
-                    <div class="checkall">
-                        <i class="el-icon-success icon-success"></i>
+                    <div class="checkall" @click="checkAll">
+                        <i class="el-icon-success icon-success" :class="{checked: cartList.length === selection }"></i>
                         <span class="checkall-text">Select All</span>
                     </div>
 
                     <div class="checkout">
-                        <span class="checkout-total">Items total: <span class="total-num">123</span> </span>
-                        <a href="javascript:;" class="checkout-btn disable  ">CHECKOUT</a>
+                        <span class="checkout-total">Items total: <span class="total-num">{{totalPrice | currency("¥")}}</span> </span>
+                        <a href="javascript:;" class="checkout-btn" :class="{disable: selection === 0}" @click="checkout">CHECKOUT</a>
                     </div>
                 </div>
             </el-container>
         </article>
+
+        <el-dialog
+            :visible.sync="removeMdShow"
+            width="30%"
+            top="0"
+            center
+            class="g-cart">
+            <el-row 
+                type="flex"
+                justify="center"
+                align="middle">
+                <span>确认移除该商品？</span>
+            </el-row>
+            <span slot="footer">
+                <el-button @click.native="removeItem" class="left-btn g-cart-btn">确定</el-button>
+                <el-button type="primary" @click.native="removeMdShow = false" class="right-btn g-cart-btn">取消</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
     import NavBread from 'components/NavBread';
     import CartCounter from './counter';
     export default {
@@ -113,9 +101,88 @@
         },
         data() {
             return {
-                amount: 5
+                cartList: [],
+                removeMdShow: false,
+                deleteProductId: ""
             }
-        }
+        },
+        computed: {
+            totalPrice() {
+                let total = 0;
+                this.cartList.forEach(item => {
+                    if (item.checked === "1") {
+                        total += item.productNum * item.salePrice;
+                    }
+                })
+                return total;
+            },
+            selection() {
+                let n = 0;
+                this.cartList.forEach(item => {
+                    if (item.checked === "1") {
+                        n += 1;
+                    }
+                })
+                return n;
+            }
+        },
+        created() {
+            this.getCartList();
+        },
+        methods: {
+            showMd(productId) {
+                this.deleteProductId = productId;
+                this.removeMdShow = true;
+            },
+            getCartList() {
+                axios.get("/users/cartList").then(({data}) => { 
+                    if (data.status === "0") {
+                        this.cartList = data.result;
+                    }
+                }) 
+            },
+            removeItem() {
+                axios.post("/users/cartDel", {productId: this.deleteProductId}).then(({data}) => {
+                    if (data.status === "0") {
+                        this.getCartList();
+                        this.removeMdShow = false;
+                    }
+                })
+            },
+            editCart(item, flag) {
+                if (flag === "select") {
+                    item.checked = item.checked == "1"? "0":"1";
+                }
+                
+                axios.post("/users/cartEdit", item).then(({data}) => {
+                    if (data.status === "0" && flag !== "select") {
+                        axios.get("/users/getCartCount").then(({data}) => {
+                            this.$store.commit("initCartCount", data.result.cartCount);
+                        })
+                    }
+                })
+            },
+            checkAll() {
+                let checked;
+                if (this.selection === this.cartList.length) {
+                    checked = "0";
+                } else {
+                    checked = "1";
+                }
+                axios.post("/users/checkedAll",{checked}).then(({data}) => {
+                    if (data.status === "0") {
+                        this.cartList.forEach(item => {
+                            item.checked = checked;
+                        })
+                    }
+                })
+            },
+            checkout() {
+                if (this.selection) {
+                    this.$router.push("address");
+                }
+            }
+        },
     }
 </script>
 
@@ -125,6 +192,12 @@
         i {
             font-size: 20px;
             cursor: pointer;
+
+            &.checked {
+                color: #ee7a23;
+                border: none;
+                font-size: 22px;
+            }
         }
 
         .icon-success {
@@ -182,6 +255,7 @@
 
                     .item-image{
                         position: absolute;
+                        width: 100%;
                     }
                 }
 
@@ -213,14 +287,19 @@
         }
 
         &-check {
-            margin-top: 20px;
+            margin: 20px 0 40px;
             border: 1px solid #e9e9e9;
             @include flex-between();
             height: 55px;
             background-color: #fff;
 
-            .checkall-text {
+            .checkall {
+                @include flex-center();
                 cursor: pointer;
+            }
+
+            .checkall-text:hover{
+                color: #d1434a;
             }
 
             .checkout-total {
@@ -231,6 +310,7 @@
                 color: #d1434a;
                 font-weight: 700;
                 font-size: 18px;
+                padding-left: 20px; 
             }
             .checkout {
                 height: 100%;

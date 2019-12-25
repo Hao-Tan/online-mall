@@ -21,10 +21,10 @@ router.post("/login", (req, res) => {
         } else {
             if (data) {
                 res.cookie("userName", data.userName, {
-                    maxAge: 1000 * 60 * 60
+                    maxAge: 1000 * 60 * 60 * 24
                 });
                 res.cookie("userId", data.userId, {
-                    maxAge: 1000 * 60 * 60
+                    maxAge: 1000 * 60 * 60 * 24
                 });
 
                 res.send({
@@ -159,7 +159,7 @@ router.post("/addCart", (req, res) => {
                             "salePrice": goodsData.salePrice,
                             "productImage": goodsData.productImage,
                             "productNum": 1,
-                            "checked": 1
+                            "checked": 0
                         })
                         data.save((err, data) => {
                             if (err) {
@@ -184,4 +184,102 @@ router.post("/addCart", (req, res) => {
 })
 
 
+// 获取购物车数据
+router.get("/cartlist", (req, res) => {
+    let userId = req.cookies.userId;
+    Users.findOne({userId: userId}, (err, data) => {
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            })
+        } else {
+            res.json({
+                status: "0",
+                msg: "",
+                result: data.cartList
+            })
+        }
+    })
+})
+
+// 删除购物车商品
+router.post("/cartDel", (req, res) => {
+    let productId = req.body.productId,
+        userId = req.cookies.userId;
+
+    Users.updateOne({userId: userId}, { $pull: { cartList: { productId: productId }}}, (err, data) => {
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            })
+        } else {
+            res.json({
+                status: "0",
+                msg: "",
+                result: "success"
+            })
+        }
+    })
+})
+
+// 改变单个商品状态
+router.post("/cartEdit", (req, res) => {
+    let userId = req.cookies.userId,
+        productId = req.body.productId,
+        checked = req.body.checked,
+        productNum = req.body.productNum;
+
+    Users.updateOne({
+        userId: userId,
+        "cartList.productId": productId
+    },{ $set :{
+        "cartList.$.checked": checked,
+        "cartList.$.productNum": productNum
+    }}, (err, data) => {
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            })
+        } else {
+            res.json({
+                status: "0",
+                msg: "",
+                result: "success"
+            })
+        }
+    })
+})
+
+// 全选
+router.post("/checkedAll", (req, res) => {
+    let userId = req.cookies.userId,
+        checked = req.body.checked;
+    Users.updateOne({
+        userId
+    }, {
+        $set: {
+            "cartList.$[].checked": checked
+        }
+    }, (err, data) => {
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            })
+        } else {
+            res.json({
+                status: "0",
+                msg: "",
+                result: "success"
+            })
+        }
+    })
+})
 module.exports = router;
