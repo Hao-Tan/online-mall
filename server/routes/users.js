@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
 const router = express.Router();
 const Users = require('../models/users');
@@ -84,7 +85,9 @@ router.get("/cookiesCheck", (req, res) => {
 router.get("/getCartCount", (req, res) => {
     if (req.cookies && req.cookies.userId) {
         let userId = req.cookies.userId;
-        Users.findOne({userId: userId}, (err, data) => {
+        Users.findOne({
+            userId: userId
+        }, (err, data) => {
             if (err) {
                 res.json({
                     status: 1,
@@ -112,7 +115,9 @@ router.get("/getCartCount", (req, res) => {
 router.post("/addCart", (req, res) => {
     let productId = req.body.productId,
         userId = req.cookies.userId;
-    Users.findOne({userId: userId}, (err, data) => {
+    Users.findOne({
+        userId: userId
+    }, (err, data) => {
         if (err) {
             res.json({
                 status: "1",
@@ -145,7 +150,9 @@ router.post("/addCart", (req, res) => {
                     }
                 })
             } else {
-                Goods.findOne({productId: productId}, (err, goodsData) => {
+                Goods.findOne({
+                    productId: productId
+                }, (err, goodsData) => {
                     if (err) {
                         res.json({
                             status: "1",
@@ -187,7 +194,9 @@ router.post("/addCart", (req, res) => {
 // 获取购物车数据
 router.get("/cartlist", (req, res) => {
     let userId = req.cookies.userId;
-    Users.findOne({userId: userId}, (err, data) => {
+    Users.findOne({
+        userId: userId
+    }, (err, data) => {
         if (err) {
             res.json({
                 status: "1",
@@ -209,7 +218,15 @@ router.post("/cartDel", (req, res) => {
     let productId = req.body.productId,
         userId = req.cookies.userId;
 
-    Users.updateOne({userId: userId}, { $pull: { cartList: { productId: productId }}}, (err, data) => {
+    Users.updateOne({
+        userId: userId
+    }, {
+        $pull: {
+            cartList: {
+                productId: productId
+            }
+        }
+    }, (err, data) => {
         if (err) {
             res.json({
                 status: "1",
@@ -236,10 +253,12 @@ router.post("/cartEdit", (req, res) => {
     Users.updateOne({
         userId: userId,
         "cartList.productId": productId
-    },{ $set :{
-        "cartList.$.checked": checked,
-        "cartList.$.productNum": productNum
-    }}, (err, data) => {
+    }, {
+        $set: {
+            "cartList.$.checked": checked,
+            "cartList.$.productNum": productNum
+        }
+    }, (err, data) => {
         if (err) {
             res.json({
                 status: "1",
@@ -282,4 +301,95 @@ router.post("/checkedAll", (req, res) => {
         }
     })
 })
+
+// 获取地址列表
+router.get("/addressList", (req, res) => {
+    let userId = req.cookies.userId;
+    Users.findOne({
+        userId
+    }, (err, user) => {
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            })
+        } else {
+            res.json({
+                status: "0",
+                msg: "",
+                result: user.addressList
+            })
+        }
+    })
+})
+
+// 设置默认地址
+router.post("/setDefault", (req, res) => {
+    let userId = req.cookies.userId,
+        addressId = req.body.addressId;
+    Users.findOne({
+        userId,
+    },(err, user) =>{
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            }) 
+        } else {
+            user.addressList.forEach(address => {
+                if (address.addressId === addressId) {
+                    address.isDefault = true;
+                } else {
+                    address.isDefault = false;
+                }
+            })
+            user.save((err, data) => {
+                if (err) {
+                    res.json({
+                        status: "1",
+                        msg: err.message,
+                        result: ""
+                    }) 
+                } else {
+                    res.json({
+                        status: "0",
+                        msg: "",
+                        result: "success"
+                    })
+                }
+            })
+        }
+    })
+})
+
+// 删除地址
+router.post("/delAddress", (req, res) => {
+    let addressId = req.body.addressId;
+    Users.updateOne({
+        "addressList.addressId": addressId
+    }, {
+        $pull: {
+            addressList: {
+                addressId
+            }
+        }
+    }, (err, data) => {
+        if (err) {
+            res.json({
+                status: "1",
+                msg: err.message,
+                result: ""
+            }) 
+        } else {
+            res.json({
+                status: "0",
+                msg: "",
+                result: "success"
+            })
+        }
+    })
+})
+
 module.exports = router;

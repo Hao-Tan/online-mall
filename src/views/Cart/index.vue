@@ -6,7 +6,7 @@
 
         <article class="cart-content">
             <el-container class="content-wrapper" direction="vertical">
-                <h2 class="cart-title">
+                <h2 class="g-page-title">
                     MY CART
                 </h2>
                 <table class="cart-list">
@@ -207,14 +207,6 @@
             margin: 0 20px;
         }
 
-        &-title {
-            padding: 40px 0 20px;
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            color: #333;
-        }
-
         &-list-head {
             background-color:#605f5f;
             color: #fff;
@@ -326,6 +318,10 @@
                 height: 53px;
                 line-height: 53px;
                 display: inline-block;
+
+                &:hover {
+                    background-color: #f16f75;
+                }
 
                 &.disable {
                     background-color: #f16f75;

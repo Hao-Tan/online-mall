@@ -18,6 +18,19 @@
     @include flex-center();
 }
 
+// 页面标题
+.g-page-title {
+    padding: 40px 0 20px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #333;
+}
+
+.g-page-step {
+    padding: 30px 0 20px;
+}
+
 // 面包区样式
 .bread-wrapper {
     background-color: #f0f0f0;

@@ -1,7 +1,7 @@
 <template>
     <el-breadcrumb separator="/" class="navbread">
             <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
-            <el-breadcrumb-item>{{ currentPage }}</el-breadcrumb-item>
+            <el-breadcrumb-item class="curpage">{{ currentPage }}</el-breadcrumb-item>
     </el-breadcrumb>
 </template>
 
@@ -21,6 +21,10 @@
 
         .is-link {
             color: #999
+        }
+
+        &.curpage .el-breadcrumb__inner{
+            color: #d1434a !important;
         }
     }
 
