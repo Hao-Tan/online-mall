@@ -63,7 +63,7 @@
 
                     <div class="checkout">
                         <span class="checkout-total">Items total: <span class="total-num">{{totalPrice | currency("¥")}}</span> </span>
-                        <a href="javascript:;" class="checkout-btn" :class="{disable: selection === 0}" @click="checkout">CHECKOUT</a>
+                        <a href="javascript:;" class="g-next-btn" :class="{disable: selection === 0}" @click="checkout">CHECKOUT</a>
                     </div>
                 </div>
             </el-container>
@@ -308,25 +308,9 @@
                 height: 100%;
             }
 
-            .checkout-btn {
-                padding: 0 10px;
-                font-weight: 700;
-                letter-spacing: 0.25em;
-                font-size: 14px;
-                background-color: #d1434a;
-                color: #fff;
-                height: 53px;
-                line-height: 53px;
-                display: inline-block;
-
-                &:hover {
-                    background-color: #f16f75;
-                }
-
-                &.disable {
-                    background-color: #f16f75;
-                    cursor: default;
-                }
+            .disable {
+                background-color: #f16f75;
+                cursor: default;
             }
         }
     }

@@ -6,7 +6,7 @@
         <article class="address-content">
             <el-container class="content-wrapper" direction="vertical">
                 <pay-step :stepIndex="1" class="g-page-step"></pay-step>
-                <h2 class="address-title">
+                <h2 class="g-sub-title">
                     SHIPPING ADDRESS
                 </h2>
                 <div class="address-wrapper">
@@ -36,7 +36,7 @@
                         more <i class="el-icon-arrow-down"></i>
                     </a>
                 </div>
-                <h2 class="address-title">
+                <h2 class="g-sub-title">
                     SHIPPING METHOD
                 </h2>
                 <el-row class="address-list" tag="ul" :gutter="20">
@@ -52,7 +52,7 @@
                 </el-row>
 
                 <div class="next">
-                    <router-link class="next-btn" :to="{path:'orderConfirm',query:{'addressId':selectedId}}">Next</router-link>
+                    <router-link class="g-next-btn" :to="{path:'orderConfirm',query:{'addressId':selectedId}}">Next</router-link>
                 </div>
             </el-container>
 
@@ -171,13 +171,6 @@
 <style lang="scss" scoped>
     @import "~assets/scss/mixins";
     .address {
-        &-title {
-            color: #605f5f;
-            font-weight: 700;
-            letter-spacing: 0.25em;
-            padding: 20px 0;
-        }
-
         &-item {
             font-size: 14px;
             border: 2px solid #e9e9e9;
@@ -280,23 +273,13 @@
             width: 100%;
             display: flex;
             flex-direction: row-reverse;
+            margin-bottom: 30px;
 
-            &-btn {
-                padding: 0 10px;
-                font-weight: 700;
-                letter-spacing: 0.25em;
-                font-size: 14px;
-                background-color: #d1434a;
-                color: #fff;
+            & .g-next-btn {
                 width: 200px;
                 height: 40px;
                 line-height: 40px;
-                display: inline-block;
                 text-align: center;
-
-                &:hover {
-                    background-color: #f16f75;
-                }
             }
         }
     }
