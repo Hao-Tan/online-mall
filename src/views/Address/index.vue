@@ -273,9 +273,10 @@
             width: 100%;
             display: flex;
             flex-direction: row-reverse;
-            margin-bottom: 30px;
+            margin: 30px 0;
 
-            & .g-next-btn {
+            & .g-next-btn,
+            & .g-back-btn {
                 width: 200px;
                 height: 40px;
                 line-height: 40px;

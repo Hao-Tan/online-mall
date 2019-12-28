@@ -11,7 +11,7 @@
                 <a href="javascript:;" class="account-link" @click="logout" v-if="!!nickname">Sign out</a>
                 <div class="cart-container">
                     <span class="cart-count" v-show="cartCount >= 1">{{cartCount}}</span>
-                    <router-link class="cart-link" to="/Cart">
+                    <router-link class="cart-link" to="/cart">
                         <i class="el-icon-shopping-cart-2"></i>
                     </router-link>
                 </div>

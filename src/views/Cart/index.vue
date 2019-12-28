@@ -91,6 +91,7 @@
 
 <script>
     import axios from 'axios';
+    import {cartListMixin} from 'assets/js/mixins';
     import NavBread from 'components/NavBread';
     import CartCounter from './counter';
     export default {
@@ -99,6 +100,7 @@
             NavBread,
             CartCounter
         },
+        mixins: [cartListMixin],
         data() {
             return {
                 cartList: [],
@@ -133,13 +135,6 @@
             showMd(productId) {
                 this.deleteProductId = productId;
                 this.removeMdShow = true;
-            },
-            getCartList() {
-                axios.get("/users/cartList").then(({data}) => { 
-                    if (data.status === "0") {
-                        this.cartList = data.result;
-                    }
-                }) 
             },
             removeItem() {
                 axios.post("/users/cartDel", {productId: this.deleteProductId}).then(({data}) => {
@@ -233,10 +228,10 @@
             .item-wrapper {
                 @include flex-center();
             }
-
-
+            
             .item-tab-1 {
                 width: 40%;
+                color: #333;
 
                 .pic {
                     width: 80px;

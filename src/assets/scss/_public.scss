@@ -47,15 +47,32 @@
 }
 
 // 按钮样式
+.g-back-btn {
+    padding: 0 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    font-size: 14px;
+    display: inline-block;
+    color: #d1434a;
+    border: 1px solid #d1434a;
+    line-height: 51px;
+    height: 51px;
+
+    &:hover {
+        background-color: #ffe5e6;
+    }
+}
+
 .g-next-btn {
     padding: 0 10px;
     font-weight: 700;
     letter-spacing: 0.25em;
     font-size: 14px;
+    border: 1px solid #d1434a;
     background-color: #d1434a;
     color: #fff;
-    height: 53px;
-    line-height: 53px;
+    line-height: 51px;
+    height: 51px;
     display: inline-block;
 
     &:hover {

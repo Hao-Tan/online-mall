@@ -392,4 +392,8 @@ router.post("/delAddress", (req, res) => {
     })
 })
 
+router.post("/payment", (req, res) => {
+    //
+})
+
 module.exports = router;
