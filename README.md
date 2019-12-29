@@ -1,7 +1,7 @@
 # online-mall
 
 ## Project setup
-run below code for both in root file and server file to install dependencies for front end and backend.
+run below code in root file and server file to install dependencies for frontend and backend respectively.
 ```
 npm install
 ```
