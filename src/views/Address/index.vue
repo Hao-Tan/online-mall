@@ -5,6 +5,9 @@
         </div>
         <article class="address-content">
             <el-container class="content-wrapper" direction="vertical">
+                <h2 class="g-page-title">
+                    CHECK OUT
+                </h2>
                 <pay-step :stepIndex="1" class="g-page-step"></pay-step>
                 <h2 class="g-sub-title">
                     SHIPPING ADDRESS

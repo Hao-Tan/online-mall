@@ -72,7 +72,7 @@
 
                 <div class="goto">
                     <router-link class="g-back-btn" :to="{path:'address'}">PREVIOUS</router-link>
-                    <a href="javascript:;" class="g-next-btn">PROCEED TO PAYMENT</a>
+                    <a href="javascript:;" class="g-next-btn" @click="payment">PROCEED TO PAYMENT</a>
                 </div>   
             </el-container>
         </article>
@@ -113,21 +113,29 @@
             },
             orderTotal() {
                 return this.subTotal - this.discount + this.shipping;
+            },
+            itemTotal() {
+                let total = 0;
+                this.orderList.forEach(item => {
+                    total += item.productNum;
+                })
+                return total;
             }
         },
         created() {
             this.getCartList();
         },
         methods: {
-            payMent() {
+            payment() {
                 let addressId = this.$route.query.addressId;
                 axios.post("/users/payment", {
                     addressId,
-                    orderList: this.orderList
+                    orderTotal: this.orderTotal
                 }).then(({data}) => {
                     if (data.status === "0") {
-                        this.$router.push({
-                            path:'/orderSuccess' + data.result.orderId
+                        this.$store.commit("updateCartCount", -this.itemTotal);
+                        this.$router.replace({
+                            path:'/orderSuccess?orderId=' + data.result.orderId
                         })
                     }
                 })
