@@ -1,7 +1,7 @@
 # online-mall
 
 ## Preview address
-See  [online-mall](http://47.102.222.157:3000/#/)
+See  [online-mall](http://47.102.222.157/#/)
 
 
 ## Project setup
