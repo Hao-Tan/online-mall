@@ -1,7 +1,8 @@
 # online-mall
 
-### Preview address
-See[online-mall](http://47.102.222.157:3000/#/)
+## Preview address
+See  [online-mall](http://47.102.222.157:3000/#/)
+
 
 ## Project setup
 run code below in root file and server file to install dependencies for frontend and backend respectively.
