@@ -43,6 +43,7 @@
                     type="password"
                     prefix-icon="el-icon-lock"
                     v-model="password"
+                    @keyup.enter.native="login"
                     ></el-input>
             </el-col>   
             <span slot="footer" class="dialog-footer">
