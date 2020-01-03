@@ -23,22 +23,22 @@ const routes = [
         component: Home
     },
     {
-        path: '/Cart',
+        path: '/cart',
         name: 'cart',
         component: Cart
     },
     {
-        path: '/Address',
+        path: '/address',
         name: 'address',
         component: Address
     },
     {
-        path: '/OrderConfirm',
+        path: '/orderConfirm',
         name: 'orderConfirm',
         component: OrderConfirm
     },
     {
-        path: '/OrderSuccess',
+        path: '/orderSuccess',
         name: 'orderSuccess',
         component: OrderSuccess
     },

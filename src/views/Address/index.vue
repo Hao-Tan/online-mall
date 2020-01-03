@@ -5,6 +5,9 @@
         </div>
         <article class="address-content">
             <el-container class="content-wrapper" direction="vertical">
+                <h2 class="g-page-title">
+                    CHECK OUT
+                </h2>
                 <pay-step :stepIndex="1" class="g-page-step"></pay-step>
                 <h2 class="g-sub-title">
                     SHIPPING ADDRESS
@@ -273,9 +276,10 @@
             width: 100%;
             display: flex;
             flex-direction: row-reverse;
-            margin-bottom: 30px;
+            margin: 30px 0;
 
-            & .g-next-btn {
+            & .g-next-btn,
+            & .g-back-btn {
                 width: 200px;
                 height: 40px;
                 line-height: 40px;
