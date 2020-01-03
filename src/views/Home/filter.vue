@@ -42,6 +42,9 @@
         },
         methods: {
             chooseOne(index) {
+                if (this.priceLevel === index) {
+                    return;
+                }
                 this.priceLevel = index;
                 this.$emit("choosePrice",index);
             }
