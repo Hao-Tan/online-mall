@@ -9,7 +9,7 @@
                 </select>
             </el-col>
             <el-col class="footer-more" :span="18">
-                <span>Copyright © 2017 IMooc All Rights Reserved.</span>
+                <span>Copyright ©2017 All Rights Reserved.</span>
                 <a href="#">
                     About Us
                 </a>
@@ -21,6 +21,7 @@
                 </a>
             </el-col>
         </el-row>
+        <a :style="{marginBottom: '20px'}" href="http://www.beian.miit.gov.cn/" target="_blank">蜀ICP备20002578号</a>
     </el-footer>
 </template>
 
